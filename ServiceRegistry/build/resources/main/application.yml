@@ -1,0 +1,16 @@
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+spring:
+  cloud :
+    config :
+      import-check :
+        enabled: false
+
+server:
+    port: 8761
