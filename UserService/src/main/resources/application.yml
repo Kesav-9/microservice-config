@@ -1,0 +1,87 @@
+server:
+  port: 8081
+spring:
+  application:
+   name: USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices
+    username: root
+    password: 12345
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  config:
+    import: configserver:http://localhost:8085
+
+#eureka:
+  #instance:
+   # prefer-ip-address: true
+  #client:
+   # fetch-registry: true
+   # register-with-eureka: true
+    #service-url:
+     #default zone: http://localhost:8761/eureka //
+  main:
+    allow-circular-references: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-36131855.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorization-grant-type: client_credentials
+            scope: internal
+            client-id: 0oaey1j6piEw3YKgM5d7
+            client-secret: wHIp8zP7EN8xbjnVSdv-vCzclnPO8XjTVWlupWlYg_GQC05pWAXrTkY5bEqLvLO2
+        provider:
+          okta:
+            issuer-uri: https://dev-36131855.okta.com/oauth2/default
+
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    endpoints:
+      web:
+        exposure:
+          include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  circuitbreaker:
+   instances:
+     ratingHotelBreaker:
+       register-health-indicator: true
+       event-consumer-buffer-size: 10
+       failure-rate-threshold: 50
+       minimum-number-of-calls: 5
+       automatic-transition-from-open-to-half-open-enabled: true
+       wait-duration-in-open-state: 6s
+       permitted-number-of-calls-in-half-open-state: 3
+       sliding-window-size: 10
+       sliding-window-type: COUNT_BASED
+
+
+okta:
+  oauth2:
+    issuer: https://dev-36131855.okta.com/oauth2/default
+    audience: api://default
+
+
+
+
+
+
+
+
+
+
