@@ -1,0 +1,31 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Microservices
+    username: postgres
+    password: 12345
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  application:
+    name: HOTEL-SERVICE
+  config:
+    import: configserver:http://localhost:8085
+
+#eureka:
+ # instance:
+  #  prefer-ip-address: true
+  #client:
+   # fetch-registry: true
+    #register-with-eureka: true
+    ## default zone: http://localhost:8761/eureka
+
+
+  okta:
+    oauth2:
+      issuer: https://dev-36131855.okta.com/oauth2/default
+      audience: api://default
